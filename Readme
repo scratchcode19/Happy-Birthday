@@ -1,0 +1,144 @@
+# 💍 Proposal Game - A Romantic Birthday Surprise
+
+A beautiful interactive proposal game for a special someone's birthday! 🎂💕
+
+## 🎮 What is this?
+
+An interactive web-based game that includes 3 fun mini-games leading to a marriage proposal. Perfect for proposing on February 7th, 2026!
+
+## ✨ Features
+
+- **3 Interactive Games:**
+  - 🧠 Memory Match - Find matching pairs of hearts
+  - 💕 Heart Sequence - Tap hearts in numerical order
+  - ❤️ Love Trivia - Answer romantic questions
+  
+- **Beautiful Design:**
+  - Romantic pink and purple theme
+  - Floating hearts animation
+  - Smooth transitions and effects
+  
+- **Email Notification:**
+  - Get notified when she says "YES!"
+  - Sends to your email automatically
+
+## 🚀 How to Use
+
+### Option 1: GitHub Pages (Easiest!)
+
+1. Fork this repository
+2. Go to Settings → Pages
+3. Select "main" branch as source
+4. Your game will be live at: `https://yourusername.github.io/proposal-game/`
+5. Share this link with her on her birthday!
+
+### Option 2: Download and Open Locally
+
+1. Download `proposal_game.html`
+2. Open it in any web browser
+3. Works offline - no internet needed!
+
+### Option 3: Host Anywhere
+
+Upload the HTML file to any web hosting service:
+- Netlify (free)
+- Vercel (free)
+- Your own server
+
+## ⚙️ Setup Email Notifications
+
+Follow the instructions in `EMAIL_SETUP_INSTRUCTIONS.md` to get notified when she says yes!
+
+Quick steps:
+1. Create free EmailJS account
+2. Get your API keys
+3. Replace 3 values in the HTML file
+4. Done! You'll get an email when she says YES!
+
+## 🎨 Customization
+
+You can easily customize:
+
+### Change the Birthday Date
+Find line with "February 7th, 2026" and change it
+
+### Customize Trivia Questions
+Look for the `triviaQuestions` array around line 400 and edit:
+```javascript
+const triviaQuestions = [
+    {
+        question: "Your custom question?",
+        options: ["Option 1", "Option 2", "Option 3", "Correct answer ❤️"],
+        correct: 3 // Index of correct answer (0-3)
+    },
+    // Add more questions...
+];
+```
+
+### Change Colors
+Edit the CSS color values:
+- Pink: `#ff69b4`, `#ff1493`
+- Purple: Add your preferred colors
+
+## 📱 Mobile Friendly
+
+Works perfectly on:
+- ✅ Phones
+- ✅ Tablets
+- ✅ Computers
+- ✅ All modern browsers
+
+## 🎁 What She'll See
+
+1. Beautiful landing page with 3 game cards
+2. Complete each game to unlock the next
+3. After all games: **THE PROPOSAL!** 💍
+4. When she clicks "YES!" - celebration screen + email to you!
+
+## 📋 Files to Upload
+
+- `proposal_game.html` - The main game (REQUIRED)
+- `EMAIL_SETUP_INSTRUCTIONS.md` - Setup guide for email
+- `README.md` - This file (optional but recommended)
+
+## 🔒 Privacy
+
+- No data is collected
+- No tracking
+- Email only sent when she clicks YES
+- Works completely offline (except email feature)
+
+## 💡 Tips
+
+1. **Test it first!** - Play through all games before the big day
+2. **Setup email early** - Make sure notifications work
+3. **Share the link** - Send her the GitHub Pages link or download link
+4. **Customize questions** - Make the trivia personal to your relationship!
+
+## ❤️ Made with Love
+
+Created for a special proposal on February 7th, 2026
+
+Good luck! May she say YES! 💍✨
+
+---
+
+## 📞 Support
+
+If you need help:
+- Check `EMAIL_SETUP_INSTRUCTIONS.md` for email setup
+- Test the game before the big day
+- Make sure your email notification is working
+
+## 🎊 After She Says Yes
+
+Don't forget to:
+- 📸 Take screenshots
+- 💾 Save the celebration moment
+- 📧 Keep the email notification as a memory!
+
+---
+
+**Star this repo if it helps you! ⭐**
+
+**Share with others who want to propose in a creative way! 💕**
