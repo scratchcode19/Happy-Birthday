@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Birthday Surprise 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd6eb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 95%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            padding: 40px;
+            position: relative;
+        }
+
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart-float {
+            position: absolute;
+            animation: float-up 8s infinite;
+            opacity: 0.6;
+            font-size: 24px;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff1493;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+        }
+
+        .game-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .game-card.completed {
+            background: linear-gradient(135deg, #90EE90 0%, #32CD32 100%);
+            border-color: #FFD700;
+        }
+
+        .game-card.locked {
+            background: linear-gradient(135deg, #ccc 0%, #999 100%);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .game-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .game-title {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .game-area {
+            display: none;
+        }
+
+        .game-area.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-button {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #ff1493;
+        }
+
+        /* Memory Game Styles */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: white;
+            border: 3px solid #ff69b4;
+        }
+
+        .memory-card.matched {
+            background: #90EE90;
+            border: 3px solid #FFD700;
+            cursor: default;
+        }
+
+        .memory-card .back {
+            display: none;
+        }
+
+        .memory-card.flipped .back,
+        .memory-card.matched .back {
+            display: block;
+        }
+
+        .memory-card.flipped .front,
+        .memory-card.matched .front {
+            display: none;
+        }
+
+        /* Puzzle Game Styles */
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 30px auto;
+            max-width: 400px;
+        }
+
+        .puzzle-piece {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .puzzle-piece:hover {
+            transform: scale(1.1);
+        }
+
+        .puzzle-piece.empty {
+            background: #f0f0f0;
+        }
+
+        /* Trivia Game Styles */
+        .trivia-question {
+            background: #fff0f5;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .trivia-question h3 {
+            color: #ff1493;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .trivia-options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .trivia-option {
+            background: white;
+            border: 3px solid #ff69b4;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .trivia-option:hover {
+            background: #ff69b4;
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .trivia-option.correct {
+            background: #90EE90;
+            border-color: #32CD32;
+        }
+
+        .trivia-option.wrong {
+            background: #ffcccb;
+            border-color: #ff6b6b;
+        }
+
+        /* Proposal Styles */
+        .proposal-section {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .proposal-section.active {
+            display: block;
+            animation: fadeIn 1s;
+        }
+
+        .proposal-section h2 {
+            font-size: 3em;
+            color: #ff1493;
+            margin: 20px 0;
+        }
+
+        .proposal-section p {
+            font-size: 1.3em;
+            color: #666;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        .proposal-ring {
+            font-size: 8em;
+            animation: ring-pulse 2s infinite;
+        }
+
+        @keyframes ring-pulse {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(10deg);
+            }
+        }
+
+        .yes-button {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            border-radius: 50px;
+            font-size: 2em;
+            cursor: pointer;
+            margin: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-10px);
+            }
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        .yes-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.6);
+        }
+
+        .progress {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #ff1493;
+            font-weight: bold;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 1.2em;
+            color: #32CD32;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="heartsContainer"></div>
+    
+    <div class="container">
+        <h1>💕 A Journey to Forever 💕</h1>
+        
+        <div class="progress" id="progress">Complete all games to unlock your surprise! (0/3)</div>
+        
+        <div id="gameSelector" class="game-selector">
+            <div class="game-card" onclick="startGame('memory')" id="memoryCard">
+                <div class="game-icon">🧠</div>
+                <div class="game-title">Memory Match</div>
+                <div>Find the matching pairs!</div>
+            </div>
+            
+            <div class="game-card locked" onclick="startGame('puzzle')" id="puzzleCard">
+                <div class="game-icon">💕</div>
+                <div class="game-title">Heart Sequence</div>
+                <div>Tap the hearts in order!</div>
+            </div>
+            
+            <div class="game-card locked" onclick="startGame('trivia')" id="triviaCard">
+                <div class="game-icon">❤️</div>
+                <div class="game-title">Love Trivia</div>
+                <div>How well do you know us?</div>
+            </div>
+        </div>
+
+        <!-- Memory Game -->
+        <div id="memoryGame" class="game-area">
+            <button class="back-button" onclick="backToMenu()">← Back to Games</button>
+            <h2 style="text-align: center; color: #ff1493;">Match the Hearts! 💕</h2>
+            <div class="memory-grid" id="memoryGrid"></div>
+            <div class="message" id="memoryMessage"></div>
+        </div>
+
+        <!-- Puzzle Game -->
+        <div id="puzzleGame" class="game-area">
+            <button class="back-button" onclick="backToMenu()">← Back to Games</button>
+            <h2 style="text-align: center; color: #ff1493;">Tap the Hearts in Order! 💕</h2>
+            <p style="text-align: center; margin: 20px 0;">Click the hearts from 1 to 9</p>
+            <div class="puzzle-grid" id="puzzleGrid"></div>
+            <div class="message" id="puzzleMessage"></div>
+        </div>
+
+        <!-- Trivia Game -->
+        <div id="triviaGame" class="game-area">
+            <button class="back-button" onclick="backToMenu()">← Back to Games</button>
+            <h2 style="text-align: center; color: #ff1493;">Answer from Your Heart! ❤️</h2>
+            <div id="triviaContainer"></div>
+        </div>
+
+        <!-- Proposal Section -->
+        <div id="proposalSection" class="proposal-section">
+            <div class="proposal-ring">💍</div>
+            <h2>Will You Marry Me?</h2>
+            <p>Every game we played together led us here...<br>
+            Every moment has been a treasure...<br>
+            Every day with you is a gift...</p>
+            <p style="font-size: 1.5em; color: #ff1493;">
+                You are my best friend, my soulmate, my everything.<br>
+                I want to spend forever playing this game of life with you.
+            </p>
+            <p style="font-size: 1.2em; color: #ff69b4; margin-top: 30px;">
+                🎂 Happy Birthday, My Love! 🎂<br>
+                February 7th, 2026
+            </p>
+            <button class="yes-button" onclick="celebrate()">YES! 💕</button>
+        </div>
+    </div>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script>
+        let gamesCompleted = 0;
+        const totalGames = 3;
+        
+        // Initialize EmailJS
+        (function(){
+            emailjs.init("YOUR_PUBLIC_KEY"); // You'll need to replace this
+        })();
+        
+        // Floating hearts animation
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart-float';
+                heart.textContent = '💕';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 8000);
+            }, 1000);
+        }
+        createFloatingHearts();
+
+        function updateProgress() {
+            document.getElementById('progress').textContent = 
+                `Complete all games to unlock your surprise! (${gamesCompleted}/${totalGames})`;
+            
+            if (gamesCompleted === totalGames) {
+                setTimeout(() => {
+                    document.getElementById('gameSelector').style.display = 'none';
+                    document.getElementById('proposalSection').classList.add('active');
+                }, 1000);
+            }
+        }
+
+        function startGame(gameType) {
+            const card = document.getElementById(gameType + 'Card');
+            if (card.classList.contains('locked')) return;
+            
+            document.getElementById('gameSelector').style.display = 'none';
+            document.getElementById(gameType + 'Game').classList.add('active');
+            
+            if (gameType === 'memory') initMemoryGame();
+            if (gameType === 'puzzle') initPuzzleGame();
+            if (gameType === 'trivia') initTriviaGame();
+        }
+
+        function backToMenu() {
+            document.querySelectorAll('.game-area').forEach(area => {
+                area.classList.remove('active');
+            });
+            document.getElementById('gameSelector').style.display = 'grid';
+        }
+
+        function completeGame(gameType) {
+            const card = document.getElementById(gameType + 'Card');
+            card.classList.add('completed');
+            gamesCompleted++;
+            updateProgress();
+            
+            // Unlock next game
+            if (gameType === 'memory') {
+                document.getElementById('puzzleCard').classList.remove('locked');
+            } else if (gameType === 'puzzle') {
+                document.getElementById('triviaCard').classList.remove('locked');
+            }
+        }
+
+        // MEMORY GAME
+        const memoryEmojis = ['💕', '💖', '💝', '💗', '🌹', '💐', '🎁', '⭐'];
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+
+        function initMemoryGame() {
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            memoryCards = [...memoryEmojis, ...memoryEmojis].sort(() => Math.random() - 0.5);
+            flippedCards = [];
+            matchedPairs = 0;
+            
+            memoryCards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.innerHTML = `
+                    <div class="front">❤️</div>
+                    <div class="back">${emoji}</div>
+                `;
+                card.onclick = () => flipCard(card, index, emoji);
+                grid.appendChild(card);
+            });
+        }
+
+        function flipCard(card, index, emoji) {
+            if (flippedCards.length === 2 || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+            
+            card.classList.add('flipped');
+            flippedCards.push({ card, index, emoji });
+            
+            if (flippedCards.length === 2) {
+                setTimeout(checkMatch, 800);
+            }
+        }
+
+        function checkMatch() {
+            const [first, second] = flippedCards;
+            
+            if (first.emoji === second.emoji) {
+                first.card.classList.add('matched');
+                second.card.classList.add('matched');
+                matchedPairs++;
+                
+                if (matchedPairs === memoryEmojis.length) {
+                    document.getElementById('memoryMessage').textContent = '🎉 Perfect! You remembered everything! 🎉';
+                    setTimeout(() => {
+                        completeGame('memory');
+                        backToMenu();
+                    }, 2000);
+                }
+            } else {
+                first.card.classList.remove('flipped');
+                second.card.classList.remove('flipped');
+            }
+            
+            flippedCards = [];
+        }
+
+        // PUZZLE GAME - Tap hearts in order
+        let puzzleNumbers = [];
+        let currentNumber = 1;
+
+        function initPuzzleGame() {
+            puzzleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
+            currentNumber = 1;
+            renderPuzzle();
+        }
+
+        function renderPuzzle() {
+            const grid = document.getElementById('puzzleGrid');
+            grid.innerHTML = '';
+            
+            puzzleNumbers.forEach((num, index) => {
+                const piece = document.createElement('div');
+                piece.className = 'puzzle-piece';
+                piece.innerHTML = `<div style="font-size: 0.8em;">❤️</div><div>${num}</div>`;
+                piece.id = `puzzle-${num}`;
+                piece.onclick = () => tapNumber(num, piece);
+                grid.appendChild(piece);
+            });
+        }
+
+        function tapNumber(num, piece) {
+            if (num === currentNumber) {
+                piece.style.background = 'linear-gradient(135deg, #90EE90 0%, #32CD32 100%)';
+                piece.style.transform = 'scale(1.2)';
+                piece.style.pointerEvents = 'none';
+                
+                currentNumber++;
+                
+                if (currentNumber > 9) {
+                    document.getElementById('puzzleMessage').textContent = '🎉 Perfect! Our hearts beat as one! 🎉';
+                    setTimeout(() => {
+                        completeGame('puzzle');
+                        backToMenu();
+                    }, 2000);
+                }
+            } else {
+                piece.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    piece.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // TRIVIA GAME
+        const triviaQuestions = [
+            {
+                question: "What makes our relationship special?",
+                options: ["Your amazing smile", "Our deep connection", "Every moment together", "All of the above ❤️"],
+                correct: 3
+            },
+            {
+                question: "What do I love most about you?",
+                options: ["Your kindness", "Your laugh", "Your heart", "Everything about you 💕"],
+                correct: 3
+            },
+            {
+                question: "How do I feel when I'm with you?",
+                options: ["Complete", "Happy", "In love", "All of these and more! ?
